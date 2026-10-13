@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sample UI: deliberate issues</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; }
+    .wrapper { width: 120vw; padding: 24px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card { padding: 18px; border-radius: 24px; background: linear-gradient(135deg, #e8d7ff, #fff); box-shadow: 0 16px 32px rgba(0,0,0,.12); }
+    button:focus { outline: none; }
+    .card { animation: float 2s infinite alternate; }
+    @keyframes float { to { transform: translateY(-8px); } }
+  </style>
+</head>
+<body>
+  <main class="wrapper">
+    <h1>Messages</h1>
+    <p>Example fixture with intentionally problematic overflow and missing focus indication.</p>
+    <section class="cards" aria-label="Actions">
+      <div class="card"><h2>Inbox</h2><button>Open inbox</button></div>
+      <div class="card"><h2>Archive</h2><button>Open archive</button></div>
+      <div class="card"><h2>Search</h2><button>Open search</button></div>
+    </section>
+  </main>
+</body>
+</html>
