@@ -28,7 +28,7 @@ Audits distinguish `SOURCE`, `RENDER`, and `JUDGMENT` evidence; `Confirmed`, `Pr
 
 Prerequisite: a Codex version that supports local Agent Skills. Use the skill directory containing `SKILL.md`; do **not** copy the whole repository into a skill folder.
 
-**From this GitHub repository (after it is published):**
+**From this GitHub repository:**
 
 ```text
 $skill-installer install https://github.com/YihongTools/ui-design-skill/tree/main/ui-design

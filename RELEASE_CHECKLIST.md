@@ -6,8 +6,8 @@
 - [x] Confirm **MIT** as the license for original material and **YihongTools** as copyright holder; review `ATTRIBUTION.md`.
 - [x] Review both READMEs and ensure no private data, unpublished repository path, or credential is exposed.
 - [x] Run `python scripts/validate_skill.py` and validator regression tests.
-- [ ] Open a GitHub repository and push these source files only with explicit authorization.
-- [ ] Confirm GitHub Actions Static Skill Validation runs successfully on GitHub (local checks do not prove CI passes).
+- [x] Open a GitHub repository and push these source files only with explicit authorization (main, 2026-10-13).
+- [x] Confirm GitHub Actions Static Skill Validation runs successfully on GitHub ([run #38332002624](https://github.com/YihongTools/ui-design-skill/actions/runs/38332002624), PASS).
 - [ ] If publishing `v0.1.0`, label it **pre-release / Codex runtime unverified**; do not advertise Codex/Android/browser/E2E PASS.
 
 ## Subsequent Codex evaluation

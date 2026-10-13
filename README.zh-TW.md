@@ -38,7 +38,7 @@
 
 ## 安裝到 Windows Codex
 
-**GitHub 發布後**可在 Codex 使用：
+從 **GitHub Repository** 安裝，可在 Codex 使用：
 
 ```text
 $skill-installer install https://github.com/YihongTools/ui-design-skill/tree/main/ui-design

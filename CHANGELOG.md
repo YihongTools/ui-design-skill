@@ -18,4 +18,5 @@ This project uses [Semantic Versioning](https://semver.org/), with pre-1.0 relea
 
 - Repository static checks: see `scripts/validate_skill.py` and CI runs when available.
 - Codex invocation, behavior, browser/device UI acceptance, and full E2E: **NOT RUN** as of package preparation.
-- GitHub publication, release/tag, and subsequent Codex evaluation: **NOT DONE** as of package preparation.
+- GitHub source publication to `main`: **DONE** on 2026-10-13; initial workflow Static Skill Validation: **PASS** ([run #38332002624](https://github.com/YihongTools/ui-design-skill/actions/runs/38332002624)).
+- GitHub version tag / formal Release and subsequent Codex runtime evaluation: **NOT DONE**.
