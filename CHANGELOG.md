@@ -2,6 +2,22 @@
 
 This project uses [Semantic Versioning](https://semver.org/), with pre-1.0 releases indicating that the skill's behavior and evaluation contract may still change.
 
+## [0.2.0] - 2026-10-13
+
+### Changed
+
+- Replace canonical `ui-design/SKILL.md` with the Owner-provided Skill V2.
+- Add the reference-first greenfield design direction and bounded Render → Critique → Revise loop.
+- Add `ui-design/SKILL.zh-TW.md` as a Traditional Chinese reading copy; English remains canonical.
+- Update the static validator and tests for V2 sections and the two-file distribution contract.
+- Preserve advisory-only scoring, scoped edit authorization, and runtime-evaluation caveats.
+
+### Verification status
+
+- Static checks: run `python scripts/validate_skill.py` and the unit suite.
+- Codex V2 behavior and render/device/E2E acceptance: **NOT RUN**.
+- No version tag or formal GitHub Release has been created.
+
 ## [0.1.0] - 2026-10-13
 
 ### Added

@@ -4,7 +4,7 @@
 
 **整合設計、施工、審查、修正與驗證五種模式的 Codex Skill。** 優先考慮產品需求、既有 Design System、使用體驗與證據，不把「看起來像 AI 做的」直接當成缺陷。
 
-> **版本狀態：** `v0.1.0`。已建立可發布的 Repository 結構及靜態檢查；**尚未完成真實 Codex 行為測試、瀏覽器／裝置渲染測試或 UI E2E 驗證**。評分僅供參考。
+> **版本狀態：** `v0.2.0`（Skill V2）。已建立可發布的 Repository 結構及靜態檢查；**尚未完成真實 Codex 行為測試、瀏覽器／裝置渲染測試或 UI E2E 驗證**。評分僅供參考。
 
 ## 五種模式
 
@@ -27,13 +27,19 @@
 7. **動態效果要有目的**：支援操作回饋與狀態，尊重 reduced-motion。
 8. **Audit 必須有證據**：指出位置、觀察、影響、可信度、嚴重程度、最小改善及合理例外。
 
-完整操作契約在 [`ui-design/SKILL.md`](ui-design/SKILL.md)。規則不是硬性禁止特定字型、配色、卡片或設計風格。
+新版加入參考風格先行的 Greenfield 設計流程，以及最多兩輪修正的 **Render → Critique → Revise** 渲染回饋迴圈。完整操作契約在 [`ui-design/SKILL.md`](ui-design/SKILL.md)。規則不是硬性禁止特定字型、配色、卡片或設計風格。
+
+## 雙語 Skill 文件
+
+- [`ui-design/SKILL.md`](ui-design/SKILL.md)：V2 英文版，**Codex 執行的唯一權威規格**。
+- [`ui-design/SKILL.zh-TW.md`](ui-design/SKILL.zh-TW.md)：V2 繁體中文閱讀版，**不是第二個 Skill**，不會取代英文檔；若有差異，以英文版為準。
+- GitHub 更新不代表本機已同步。已安裝的 Codex 使用者需將兩個檔案更新到原本的 `ui-design` 資料夾，然後重啟 Codex 或建立新對話，不必重裝 Codex。
 
 ## 審查與評分
 
-- 證據層：`SOURCE`（原始碼）、`RENDER`（實際畫面）、`JUDGMENT`（產品脈絡）。
+- 證據層：原始碼觀察、實際畫面、產品脈絡判斷（各自標示是否已驗證）。
 - 可信度：`Confirmed`、`Probable`、`Candidate`、`Exempted`。
-- 嚴重性：`Critical`、`High`、`Medium`、`Low`，以使用影響為主，而非「AI 味」強弱。
+- 嚴重性：`High`、`Medium`、`Low`，以使用影響為主，而非「AI 味」強弱。
 - **無內建數值評分器**。外部掃描結果只作輔助指標，不作 CI 通過門檻；不能宣稱它能衡量 UX 品質。
 
 ## 安裝到 Windows Codex

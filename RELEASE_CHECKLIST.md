@@ -19,3 +19,9 @@
 - [ ] Revisit the release status only after multi-case runtime evidence is available; log regressions and improvements in CHANGELOG.
 
 GitHub publication, tags, releases, and production changes must not be automated by this skill itself.
+## Skill V2 multilingual update
+
+- [x] Canonical V2 `ui-design/SKILL.md` and Traditional Chinese reference `SKILL.zh-TW.md` present.
+- [x] Both README language notes make the English file authoritative and describe manual Skill refresh.
+- [ ] Validate V2 on the GitHub runner after the GitHub push.
+- [ ] Verify Codex reloads the updated Skill (V2); do not treat installation-only evidence as runtime PASS.

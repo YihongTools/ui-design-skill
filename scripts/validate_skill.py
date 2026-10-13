@@ -14,15 +14,15 @@ REQUIRED_RULES = (
     'Design authority first.',
     'Choose defaults deliberately.',
     'Decoration has a job.',
-    'Information hierarchy comes first.',
+    'Hierarchy before containers.',
     'Consistent, not rigid.',
-    'Content-driven layout.',
-    'Functional motion only.',
-    'Evidence before findings or fixes.',
+    'Content decides layout.',
+    'Motion serves function.',
+    'Findings need evidence.',
 )
-REQUIRED_EVIDENCE = ('SOURCE', 'RENDER', 'JUDGMENT')
+REQUIRED_RENDER_TERMS = ('Render feedback loop', 'Render.', 'Critique.', 'Revise.', 'visual not verified', 'At most two rounds')
 REQUIRED_CONFIDENCE = ('Confirmed', 'Probable', 'Candidate', 'Exempted')
-REQUIRED_SEVERITY = ('Critical', 'High', 'Medium', 'Low')
+REQUIRED_SEVERITY = ('High', 'Medium', 'Low')
 REQUIRED_TYPES = ('web', 'native-android', 'negative', 'boundary')
 
 
@@ -59,16 +59,18 @@ def validate(root):
         description = meta.get('description', '')
         if not (20 <= len(description) <= 1024):
             errors.append('Description must be between 20 and 1024 characters')
-        for keyword in ('UI', 'audit', 'Android'):
+        for keyword in ('UI', 'Android'):
             if keyword.casefold() not in description.casefold():
                 errors.append(f'Description lacks trigger/scope term: {keyword}')
     except ValueError as exc:
         errors.append(str(exc))
-    if '## Eight governing rules' in text and '## PLAN / BUILD procedure' in text:
-        rules_section = text.split('## Eight governing rules', 1)[1].split('## PLAN / BUILD procedure', 1)[0]
+    if not any(verb in meta.get('description', '').casefold() for verb in ('audit', 'review')):
+        errors.append('Description lacks audit/review trigger')
+    if '## Eight principles' in text and '## When critical information is missing' in text:
+        rules_section = text.split('## Eight principles', 1)[1].split('## When critical information is missing', 1)[0]
     else:
         rules_section = ''
-        errors.append('Missing eight governing rules section')
+        errors.append('Missing V2 eight principles section')
     numbered = re.findall(r'^([1-8])\.\s+\*\*([^*]+)\*\*', rules_section, re.M)
     if [int(num) for num, _ in numbered] != list(range(1, 9)):
         errors.append('Expected exactly eight ordered governing rules')
@@ -79,13 +81,34 @@ def validate(root):
     for mode in REQUIRED_MODES:
         if not re.search(rf'\b{mode}\b', text):
             errors.append(f'Missing mode: {mode}')
-    for term in REQUIRED_EVIDENCE + REQUIRED_CONFIDENCE + REQUIRED_SEVERITY:
+    for term in REQUIRED_CONFIDENCE + REQUIRED_SEVERITY + REQUIRED_RENDER_TERMS:
         if term not in text:
             errors.append(f'Missing classification: {term}')
-    for marker in ('read-only by default', 'no automatic scanner',
-                   'no built-in numeric score', 'No merge, push, release'):
+    for marker in ('AUDIT**: Read-only', 'An audit is not authorization to fix',
+                   'has no built-in scoring', 'require explicit authorization',
+                   'SKILL.zh-TW.md'):
         if marker.casefold() not in text.casefold():
-            errors.append(f'Missing safety/score contract: {marker}')
+            errors.append(f'Missing V2 safety/scoring/translation contract: {marker}')
+    if '# UI Design (V2:' not in text:
+        errors.append('Canonical Skill is not marked V2')
+    translation_path = root / 'ui-design' / 'SKILL.zh-TW.md'
+    if not translation_path.is_file():
+        errors.append('Missing ui-design/SKILL.zh-TW.md translation')
+    else:
+        translation = translation_path.read_text(encoding='utf-8')
+        if translation.lstrip().startswith('---\n'):
+            errors.append('Translation must not contain Agent Skill discovery frontmatter')
+        if 'V2' not in translation or '英文' not in translation and 'English' not in translation:
+            errors.append('Translation lacks V2 and canonical English authority context')
+        for mode in REQUIRED_MODES:
+            if mode not in translation:
+                errors.append(f'Translation missing mode: {mode}')
+    for readme in ('README.md', 'README.zh-TW.md'):
+        path = root / readme
+        if path.is_file():
+            docs = path.read_text(encoding='utf-8')
+            if 'SKILL.zh-TW.md' not in docs or 'SKILL.md' not in docs:
+                errors.append(f'{readme} must link both canonical and translated Skill files')
     cases_file = root / 'evals' / 'cases.json'
     if not cases_file.is_file():
         errors.append('Missing evals/cases.json')

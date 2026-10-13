@@ -19,6 +19,24 @@ class StaticValidatorTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Duplicate'):
             read_frontmatter('---\nname: a\nname: b\n---\nbody')
 
+    def test_v2_contract_and_translation_exist(self):
+        skill = (ROOT / 'ui-design' / 'SKILL.md').read_text(encoding='utf-8')
+        chinese = (ROOT / 'ui-design' / 'SKILL.zh-TW.md').read_text(encoding='utf-8')
+        self.assertIn('Render feedback loop', skill)
+        self.assertIn('SKILL.zh-TW.md', skill)
+        self.assertIn('V2', chinese)
+
+    def test_missing_translation_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'ui-design').mkdir()
+            (root / 'ui-design' / 'SKILL.md').write_text(
+                (ROOT / 'ui-design' / 'SKILL.md').read_text(encoding='utf-8'),
+                encoding='utf-8',
+            )
+            issues = validate(root)
+            self.assertIn('Missing ui-design/SKILL.zh-TW.md translation', issues)
+
     def test_missing_skill_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             issues = validate(Path(directory))

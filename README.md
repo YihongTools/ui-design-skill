@@ -2,7 +2,7 @@
 
 **A product-first design and UI audit skill for Codex.** Plan, build, audit, fix, and verify web and native Android interfaces without mistaking a generic AI-looking style for a usability defect.
 
-> **Release status:** `v0.1.0` — packaged and statically checked. Real Codex runtime evaluations, browser/device checks, and end-to-end UI verification have **not** been completed. Scores are advisory only.
+> **Release status:** `v0.2.0` (Skill V2) — source prepared and statically checked. Real Codex runtime evaluations, browser/device checks, and end-to-end UI verification have **not** been completed. Scores are advisory only.
 >
 > [繁體中文說明](README.zh-TW.md)
 
@@ -16,13 +16,19 @@
 | `FIX` | Apply small, reversible corrections to approved findings | Edit only authorized scope |
 | `VERIFY` | Test relevant visual and interaction acceptance | Scoped checks, no unsolicited redesign |
 
-The **eight design rules** are: (1) design authority first; (2) deliberate defaults; (3) purposeful decoration; (4) information hierarchy; (5) consistency without rigidity; (6) content-driven layout; (7) functional motion; and (8) evidence-based auditing. They are constraints on design reasoning, **not** bans on individual fonts, colors, gradients, cards, or visual styles.
+V2 adds a reference-first greenfield direction and a bounded **Render → Critique → Revise** loop (maximum two revision rounds when rendering is possible). The **eight design rules** are: (1) design authority first; (2) deliberate defaults; (3) purposeful decoration; (4) information hierarchy; (5) consistency without rigidity; (6) content-driven layout; (7) functional motion; and (8) evidence-based auditing. They are constraints on design reasoning, **not** bans on individual fonts, colors, gradients, cards, or visual styles.
 
 ### Evidence before conclusions
 
-Audits distinguish `SOURCE`, `RENDER`, and `JUDGMENT` evidence; `Confirmed`, `Probable`, `Candidate`, and `Exempted` confidence; and `Critical`, `High`, `Medium`, and `Low` severity. A static hint is not proof of a rendered defect. Findings should describe user impact and the smallest useful correction.
+Audits distinguish observed source evidence, rendered observations, and design judgments; `Confirmed`, `Probable`, `Candidate`, and `Exempted` confidence; and `High`, `Medium`, and `Low` severity. A static hint is not proof of a rendered defect. Findings should describe user impact and the smallest useful correction.
 
 **Scoring:** This skill does **not** bundle a scoring engine. If the user provides a relevant scanner, its output may be quoted with its methodology and limitations, but scores are not CI gates or a proxy for UX quality.
+
+## Language files
+
+- [`ui-design/SKILL.md`](ui-design/SKILL.md) — canonical English instruction for Codex Skill discovery and execution (V2).
+- [`ui-design/SKILL.zh-TW.md`](ui-design/SKILL.zh-TW.md) — Traditional Chinese reading copy, not loaded as a second Skill. Where wording differs, the English `SKILL.md` controls.
+- When updating an existing Codex installation, replace **both files** in the installed `ui-design` directory, then restart Codex or open a new conversation. A prior skill-installer installation does not guarantee automatic updates from GitHub.
 
 ## Installation
 
@@ -64,7 +70,8 @@ For implicit invocation (when not named explicitly), the skill's frontmatter des
 
 ```text
 ui-design/
-  SKILL.md                  # Codex reads this
+  SKILL.md                  # Codex loads this as the canonical instruction
+  SKILL.zh-TW.md            # Traditional Chinese reading copy; not a separate Skill
 scripts/
   validate_skill.py         # Standard-library, static format/contract check
   test_validate_skill.py    # Validator regression tests
