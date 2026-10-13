@@ -23,5 +23,5 @@ GitHub publication, tags, releases, and production changes must not be automated
 
 - [x] Canonical V2 `ui-design/SKILL.md` and Traditional Chinese reference `SKILL.zh-TW.md` present.
 - [x] Both README language notes make the English file authoritative and describe manual Skill refresh.
-- [ ] Validate V2 on the GitHub runner after the GitHub push.
+- [x] V2 static validation on GitHub Actions: PASS ([run #38335072860](https://github.com/YihongTools/ui-design-skill/actions/runs/38335072860)).
 - [ ] Verify Codex reloads the updated Skill (V2); do not treat installation-only evidence as runtime PASS.

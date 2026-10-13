@@ -14,7 +14,7 @@ This project uses [Semantic Versioning](https://semver.org/), with pre-1.0 relea
 
 ### Verification status
 
-- Static checks: run `python scripts/validate_skill.py` and the unit suite.
+- Static validation and validator regression suite: **PASS** in GitHub Actions ([run #38335072860](https://github.com/YihongTools/ui-design-skill/actions/runs/38335072860)); six validator tests.
 - Codex V2 behavior and render/device/E2E acceptance: **NOT RUN**.
 - No version tag or formal GitHub Release has been created.
 
