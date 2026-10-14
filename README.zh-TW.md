@@ -4,7 +4,7 @@
 
 **整合設計、施工、審查、修正與驗證五種模式的 Codex Skill。** 優先考慮產品需求、既有 Design System、使用體驗與證據，不把「看起來像 AI 做的」直接當成缺陷。
 
-> **版本狀態：** `v0.2.0`（Skill V2）。已建立可發布的 Repository 結構及靜態檢查；**尚未完成真實 Codex 行為測試、瀏覽器／裝置渲染測試或 UI E2E 驗證**。評分僅供參考。
+> **版本狀態：** `v0.2.1`（Skill V2.1 候選版；尚未發布至 Repository）。已建立可發布的 Repository 結構及靜態檢查；**已有單組 V2 視覺 A/B 報告，結論 INCONCLUSIVE；V2.1 行為、真人視覺驗收、裝置與 E2E 尚未驗證**。評分僅供參考。
 
 ## 五種模式
 
@@ -27,13 +27,13 @@
 7. **動態效果要有目的**：支援操作回饋與狀態，尊重 reduced-motion。
 8. **Audit 必須有證據**：指出位置、觀察、影響、可信度、嚴重程度、最小改善及合理例外。
 
-新版加入參考風格先行的 Greenfield 設計流程，以及最多兩輪修正的 **Render → Critique → Revise** 渲染回饋迴圈。完整操作契約在 [`ui-design/SKILL.md`](ui-design/SKILL.md)。規則不是硬性禁止特定字型、配色、卡片或設計風格。
+V2.1 強化參考優先方向（無人可答時有明確三方向備援）與 **Render → Critique → Revise**：無人回覆或「你決定」時寫三個實質不同方向並標記模型自行選擇；整頁預設替換表涵蓋主色系、字型、主要區域版型，只有使用者要求或其提供的需求文件明確固定且能逐字引用原句的列才能標示「由需求決定」；所有適用的設計選擇須在施工前回覆；被批評為樣板化的項目都要「已修改」或「刻意保留，因為……」逐項收尾。新畫面／大幅改版使用方向與預設表，局部微調沿用既有程式慣例；真正的既有 Design System 可讓受管轄列簡化，但未客製的 Material 3、Tailwind、shadcn 預設不算治理中的 Design System。若整個畫面已完整受 Design System 管轄，可跳過參考／三方向選擇，只留下精簡的受管轄列。字型使用系統字型組合或已核准的本機打包字型；無人可批准字型檔時，實作系統字型並把偏好字型記成建議。新增畫面或修改整頁版型、主色系、字體才算大幅改版。PLAN 依相同範圍輸出決策紀錄。完整操作契約在 [`ui-design/SKILL.md`](ui-design/SKILL.md)。規則不是硬性禁止特定字型、配色、卡片或設計風格。
 
 ## 雙語 Skill 文件
 
-- [`ui-design/SKILL.md`](ui-design/SKILL.md)：V2 英文版，**Codex 執行的唯一權威規格**。
-- [`ui-design/SKILL.zh-TW.md`](ui-design/SKILL.zh-TW.md)：V2 繁體中文閱讀版，**不是第二個 Skill**，不會取代英文檔；若有差異，以英文版為準。
-- GitHub 更新不代表本機已同步。已安裝的 Codex 使用者需將兩個檔案更新到原本的 `ui-design` 資料夾，然後重啟 Codex 或建立新對話，不必重裝 Codex。
+- [`ui-design/SKILL.md`](ui-design/SKILL.md)：V2.1 候選版英文主檔，**Codex 執行的唯一權威規格**。
+- [`docs/SKILL.zh-TW.md`](docs/SKILL.zh-TW.md)：V2.1 繁體中文閱讀參考，放在 Skill 目錄外，若有差異以英文版為準。
+- GitHub 更新不代表本機已同步。已安裝的 Codex 使用者可從獨立 Codex ZIP 將英文 `SKILL.md` 與同步後的中文閱讀檔更新到原本的 `ui-design` 資料夾，然後重啟 Codex 或建立新對話，不必重裝 Codex。英文主檔才是 Skill 執行入口，Repository 中的中文版則放在 `docs/`。
 
 ## 審查與評分
 

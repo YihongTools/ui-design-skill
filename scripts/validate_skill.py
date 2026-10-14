@@ -20,7 +20,7 @@ REQUIRED_RULES = (
     'Motion serves function.',
     'Findings need evidence.',
 )
-REQUIRED_RENDER_TERMS = ('Render feedback loop', 'Render.', 'Critique.', 'Revise.', 'visual not verified', 'At most two rounds')
+REQUIRED_RENDER_TERMS = ('Render feedback loop', 'Render.', 'Critique.', 'Revise.', 'visual not verified', 'at most two revision rounds')
 REQUIRED_CONFIDENCE = ('Confirmed', 'Probable', 'Candidate', 'Exempted')
 REQUIRED_SEVERITY = ('High', 'Medium', 'Low')
 REQUIRED_TYPES = ('web', 'native-android', 'negative', 'boundary')
@@ -85,21 +85,110 @@ def validate(root):
         if term not in text:
             errors.append(f'Missing classification: {term}')
     for marker in ('AUDIT**: Read-only', 'An audit is not authorization to fix',
-                   'has no built-in scoring', 'require explicit authorization',
-                   'SKILL.zh-TW.md'):
+                   'has no built-in scoring', 'require separate explicit authorization',
+                   'Repository writes outside the authorized UI files'):
         if marker.casefold() not in text.casefold():
             errors.append(f'Missing V2 safety/scoring/translation contract: {marker}')
-    if '# UI Design (V2:' not in text:
-        errors.append('Canonical Skill is not marked V2')
-    translation_path = root / 'ui-design' / 'SKILL.zh-TW.md'
+    if '# UI Design (V2.1:' not in text:
+        errors.append('Canonical Skill is not marked V2.1')
+    for contract in ('three materially different directions', 'Model-selected; user may override',
+                     'color (including primary color family)', 'typeface / typography',
+                     'page-level layout structure', 'Fixed by brief',
+                     'Pre-implementation decision record.', 'Intentionally retained, because',
+                     '"Looks fine" or "clean" is not a reason',
+                     'Use an existing design system as authority',
+                     'ask at most three questions',
+                     'If references are supplied, state what is transferable from each',
+                     'or the selected candidate direction',
+                     'check each applicable row of the defaults table against the render',
+                     'A chosen replacement that is not visible on screen counts as a template-like item',
+                     'quote the exact sentence', 'only if the brief states the constraint explicitly',
+                     '**Substantial redesign** means a new screen',
+                     'Localized styling, spacing, or component tweaks alone are not substantial',
+                     'available system font stack', 'locally bundled font',
+                     'including Android `res/font`', 'without approval',
+                     'If no one can approve a font file',
+                     '## Direction and defaults table (greenfield or substantial redesign)',
+                     "localized tweaks follow the existing code's conventions",
+                     'Unmodified framework or template defaults',
+                     'Material 3 baseline', 'default Tailwind/shadcn',
+                     'Design system: <source>',
+                     "brief means the user's request or any requirements document they supplied",
+                     'fully governs the surface, skip steps 1–2',
+                     'only uncovered rows need the full record',
+                     'applicable direction and step 3 decisions',
+                     'documented three-direction fallback'):
+        if contract.casefold() not in text.casefold():
+            errors.append(f'Missing V2.1 contract: {contract}')
+    verify_mode = text.partition('- **VERIFY**:')[2].splitlines()[0] if '- **VERIFY**:' in text else ''
+    loop_boundary = text.partition('## Render feedback loop')[2].partition('1. **Render.**')[0]
+    if not all(term in verify_mode for term in ('Read-only', 'not fix authorization', 'only under BUILD/FIX', 'explicitly authorizes fixes')):
+        errors.append('Missing VERIFY mode permission boundary')
+    if not all(term in loop_boundary for term in ('VERIFY runs steps 1, 2, and 4', 'step 3 Revise', 'only under BUILD/FIX', 'fixes are explicitly authorized')):
+        errors.append('Missing VERIFY render-loop step boundary')
+    plan = text.partition('## PLAN / BUILD procedure')[2].partition('## Render feedback loop')[0]
+    critique = text.partition('2. **Critique.**')[2].partition('3. **Revise.**')[0]
+    if not all(term in plan for term in ('functional requirements stated in the brief', 'required states, actions, information shown, completion behavior, and error behavior when specified')):
+        errors.append('Missing functional requirement identification rule')
+    if not all(term in critique for term in ('every identified functional requirement', 'present and operable in the render', 'High-severity defect', 'regardless of improvements')):
+        errors.append('Missing functional preservation critique rule')
+    report = text.partition('4. **Report.**')[2].partition('## AUDIT')[0]
+    build_output = text.partition('- **BUILD/FIX**:')[2].splitlines()[0] if '- **BUILD/FIX**:' in text else ''
+    for section, label in ((report, 'Report'), (build_output, 'BUILD/FIX')):
+        if not all(term in section for term in ('each identified functional requirement', 'present and operable / missing or broken / unverified')):
+            errors.append(f'Missing {label} functional status rule')
+    if text.count('Design system: <source>') != 1:
+        errors.append('V2.1 compact Design system row syntax must be defined exactly once in runtime Skill')
+    output_section = text.partition('## Output')[2].partition('## Scoring')[0]
+    if not output_section or not all(term in output_section for term in ('**PLAN**:', 'three candidate directions', 'three-row defaults table', 'supplied references')):
+        errors.append('V2.1 PLAN output must include references or candidates and defaults table')
+    for eval_only in ('A/B', 'runner', 'body-read', 'Skill file was read', 'not proof that the canonical',
+                      'decision-record timing', 'SKILL.zh-TW.md'):
+        if eval_only.casefold() in text.casefold():
+            errors.append(f'Evaluation or translation reference leaked into runtime Skill: {eval_only}')
+    if (root / 'ui-design' / 'SKILL.zh-TW.md').exists():
+        errors.append('Reference translation must live in docs/, not installed Skill folder')
+    translation_path = root / 'docs' / 'SKILL.zh-TW.md'
     if not translation_path.is_file():
-        errors.append('Missing ui-design/SKILL.zh-TW.md translation')
+        errors.append('Missing docs/SKILL.zh-TW.md translation')
     else:
         translation = translation_path.read_text(encoding='utf-8')
         if translation.lstrip().startswith('---\n'):
             errors.append('Translation must not contain Agent Skill discovery frontmatter')
-        if 'V2' not in translation or '英文' not in translation and 'English' not in translation:
+        if 'V2.1' not in translation or '英文' not in translation and 'English' not in translation:
             errors.append('Translation lacks V2 and canonical English authority context')
+        for translated_term in ('三個實質不同', '主色系', '整頁版型結構', '由需求決定',
+                                '施工前設計決策紀錄', '刻意保留，因為', '最多只問三個問題',
+                                '逐一說明其哪些特性可轉用到本產品', '選定的候選方向',
+                                '逐列檢查預設替換表中適用的每一列', '逐字引用需求原句',
+                                '只有 brief 明確寫出限制', '修改整頁版型結構、主色系、字體',
+                                '單純局部樣式、間距或元件微調不算',
+                                '系統字型組合', 'Android `res/font`', '無人可批准字型檔',
+                                'Design system: <來源>', '局部微調沿用既有程式碼與元件慣例',
+                                '未經專案客製的框架或模板預設', 'Material 3 baseline',
+                                'brief** 指使用者本次要求或使用者提供的需求文件',
+                                '只有未被管轄的列才展開完整', '適用的方向與步驟 3 決策'):
+            if translated_term not in translation:
+                errors.append(f'Translation missing V2.1 contract: {translated_term}')
+        verify_mode = translation.partition('- **VERIFY**：')[2].splitlines()[0] if '- **VERIFY**：' in translation else ''
+        loop_boundary = translation.partition('## 渲染回饋迴圈')[2].partition('1. **渲染**')[0]
+        if not all(term in verify_mode for term in ('預設唯讀', '不是修正授權', '僅在 BUILD/FIX', '明確授權修正')):
+            errors.append('Translation missing VERIFY mode permission boundary')
+        if not all(term in loop_boundary for term in ('VERIFY 只執行步驟 1、2、4', '步驟 3 Revise', '僅在 BUILD/FIX', '明確授權修正')):
+            errors.append('Translation missing VERIFY render-loop step boundary')
+        plan = translation.partition('## PLAN / BUILD 流程')[2].partition('## 渲染回饋迴圈')[0]
+        critique = translation.partition('2. **批評**')[2].partition('3. **修正**')[0]
+        if not all(term in plan for term in ('辨認 brief 明訂的功能需求', '必要狀態、操作、呈現資訊、完成行為', '錯誤行為')):
+            errors.append('Translation missing functional requirement identification rule')
+        if not all(term in critique for term in ('功能需求', '仍存在且可操作', 'High 嚴重度 regression', '不能用')):
+            errors.append('Translation missing functional preservation critique rule')
+        report = translation.partition('4. **回報**')[2].partition('## AUDIT')[0]
+        build_output = translation.partition('- **BUILD/FIX**：')[2].splitlines()[0] if '- **BUILD/FIX**：' in translation else ''
+        for section, label in ((report, 'Report'), (build_output, 'BUILD/FIX')):
+            if not all(term in section for term in ('每項已辨認功能需求的狀態', '已存在且可操作／遺失或故障／未驗證')):
+                errors.append(f'Translation missing {label} functional status rule')
+        if translation.count('Design system: <來源>') != 1:
+            errors.append('Translation compact Design system row syntax must be defined exactly once')
         for mode in REQUIRED_MODES:
             if mode not in translation:
                 errors.append(f'Translation missing mode: {mode}')
@@ -107,7 +196,7 @@ def validate(root):
         path = root / readme
         if path.is_file():
             docs = path.read_text(encoding='utf-8')
-            if 'SKILL.zh-TW.md' not in docs or 'SKILL.md' not in docs:
+            if 'docs/SKILL.zh-TW.md' not in docs or 'ui-design/SKILL.md' not in docs:
                 errors.append(f'{readme} must link both canonical and translated Skill files')
     cases_file = root / 'evals' / 'cases.json'
     if not cases_file.is_file():

@@ -2,7 +2,7 @@
 
 **A product-first design and UI audit skill for Codex.** Plan, build, audit, fix, and verify web and native Android interfaces without mistaking a generic AI-looking style for a usability defect.
 
-> **Release status:** `v0.2.0` (Skill V2) — source prepared and statically checked. Real Codex runtime evaluations, browser/device checks, and end-to-end UI verification have **not** been completed. Scores are advisory only.
+> **Release status:** `v0.2.1` (Skill V2.1 release candidate) — pending repository publication and Codex V2.1 behavior tests. A single exploratory V2 visual A/B has been reported **INCONCLUSIVE**; V2.1 behavioral evaluation, human UI acceptance, device testing, and end-to-end acceptance are **not verified**. Scores are advisory only.
 >
 > [繁體中文說明](README.zh-TW.md)
 
@@ -16,7 +16,7 @@
 | `FIX` | Apply small, reversible corrections to approved findings | Edit only authorized scope |
 | `VERIFY` | Test relevant visual and interaction acceptance | Scoped checks, no unsolicited redesign |
 
-V2 adds a reference-first greenfield direction and a bounded **Render → Critique → Revise** loop (maximum two revision rounds when rendering is possible). The **eight design rules** are: (1) design authority first; (2) deliberate defaults; (3) purposeful decoration; (4) information hierarchy; (5) consistency without rigidity; (6) content-driven layout; (7) functional motion; and (8) evidence-based auditing. They are constraints on design reasoning, **not** bans on individual fonts, colors, gradients, cards, or visual styles.
+V2.1 strengthens the reference-first direction (with a documented three-direction fallback) and bounded **Render → Critique → Revise** loop: an unattended "you decide" request gets three genuinely different directions and a reversible model decision; a page-level table covers primary palette, typography, and major-region layout (label **Fixed by brief** only when the user's request or supplied requirements document states the constraint and is quoted exactly); design decisions must be published before BUILD edits; every template-like critique item ends **Changed** or **Intentionally retained, because ...**. New/substantially redesigned surfaces use the direction/defaults-table section, while localized tweaks follow existing code conventions. A real governing design system may short-circuit governed rows, but unmodified Material 3/Tailwind/shadcn defaults do not count as one; a fully governed surface skips reference/fallback selection and records compact governed rows. Typography uses available system stacks or authorized locally bundled fonts with license evidence; if font-file approval is unavailable, apply a system stack and record the preferred font as a suggestion rather than applied. **Substantial redesign** means a new screen or a change to page-level layout, primary color family, or typeface, not a localized tweak. PLAN reflects the same scoped record. Two render revision rounds at most. The **eight design rules** are: (1) design authority first; (2) deliberate defaults; (3) purposeful decoration; (4) information hierarchy; (5) consistency without rigidity; (6) content-driven layout; (7) functional motion; and (8) evidence-based auditing. They are constraints on design reasoning, **not** bans on individual fonts, colors, gradients, cards, or visual styles.
 
 ### Evidence before conclusions
 
@@ -26,15 +26,15 @@ Audits distinguish observed source evidence, rendered observations, and design j
 
 ## Language files
 
-- [`ui-design/SKILL.md`](ui-design/SKILL.md) — canonical English instruction for Codex Skill discovery and execution (V2).
-- [`ui-design/SKILL.zh-TW.md`](ui-design/SKILL.zh-TW.md) — Traditional Chinese reading copy, not loaded as a second Skill. Where wording differs, the English `SKILL.md` controls.
-- When updating an existing Codex installation, replace **both files** in the installed `ui-design` directory, then restart Codex or open a new conversation. A prior skill-installer installation does not guarantee automatic updates from GitHub.
+- [`ui-design/SKILL.md`](ui-design/SKILL.md) — canonical English instruction for Codex Skill discovery and execution (V2.1 candidate).
+- [`docs/SKILL.zh-TW.md`](docs/SKILL.zh-TW.md) — Traditional Chinese reading reference outside the installed Skill directory. English `SKILL.md` controls.
+- When updating an existing Codex installation, replace **`ui-design/SKILL.md`** in the installed Skill directory, then restart Codex or open a new conversation. The repository stores the translation under `docs/`; the standalone Codex ZIP also includes its synchronized copy under `ui-design/SKILL.zh-TW.md` for users updating older installations. Only English `SKILL.md` is executed as the Skill entry point.
 
 ## Installation
 
 Prerequisite: a Codex version that supports local Agent Skills. Use the skill directory containing `SKILL.md`; do **not** copy the whole repository into a skill folder.
 
-**From this GitHub repository:**
+**From this GitHub repository (after it is published):**
 
 ```text
 $skill-installer install https://github.com/YihongTools/ui-design-skill/tree/main/ui-design
@@ -70,8 +70,9 @@ For implicit invocation (when not named explicitly), the skill's frontmatter des
 
 ```text
 ui-design/
-  SKILL.md                  # Codex loads this as the canonical instruction
-  SKILL.zh-TW.md            # Traditional Chinese reading copy; not a separate Skill
+  SKILL.md                  # The only installed Skill instruction
+docs/
+  SKILL.zh-TW.md            # Optional human-readable translation
 scripts/
   validate_skill.py         # Standard-library, static format/contract check
   test_validate_skill.py    # Validator regression tests
