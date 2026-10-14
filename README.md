@@ -2,7 +2,7 @@
 
 **A product-first design and UI audit skill for Codex.** Plan, build, audit, fix, and verify web and native Android interfaces without mistaking a generic AI-looking style for a usability defect.
 
-> **Release status:** `v0.2.1` (Skill V2.1 release candidate) — pending repository publication and Codex V2.1 behavior tests. A single exploratory V2 visual A/B has been reported **INCONCLUSIVE**; V2.1 behavioral evaluation, human UI acceptance, device testing, and end-to-end acceptance are **not verified**. Scores are advisory only.
+> **Release status:** `v0.2.1` (Skill V2.1 unreleased candidate). The [repository is public](https://github.com/YihongTools/ui-design-skill); no version tags or GitHub Releases exist as checked on 2026-10-14. One VERIFY smoke has corrected acceptance **PASS**; this is not a general V2.1 quality or product-feature pass. See [evidence history](evals/evidence.md). Scores are advisory only.
 >
 > [繁體中文說明](README.zh-TW.md)
 
@@ -22,6 +22,12 @@ V2.1 strengthens the reference-first direction (with a documented three-directio
 
 Audits distinguish observed source evidence, rendered observations, and design judgments; `Confirmed`, `Probable`, `Candidate`, and `Exempted` confidence; and `High`, `Medium`, and `Low` severity. A static hint is not proof of a rendered defect. Findings should describe user impact and the smallest useful correction.
 
+Historical evidence remains separate: the exploratory V2 visual A/B was reported **INCONCLUSIVE**; the V2.1 A/B case was reported **REGRESSED**, losing the required session completion state without detecting it in critique. These A/B conclusions come from preserved Owner reports; the original A/B artifacts are not bundled here.
+
+VERIFY progressed from smoke-001's child Render block, through smoke-002 R1's installed-Skill mismatch and R2's successful child rendering/High defect detection with vocabulary failure, to smoke-003's exact vocabulary compliance. Its original evaluator FAIL incorrectly added a dynamic-update requirement; reassessment found an evaluator defect and corrected acceptance to **PASS**. The smoke passed because VERIFY detected/classified the intentional defect and remained read-only; the fixture still lacked its required completion state. See [the distinct results and sources](evals/evidence.md).
+
+Dynamic updates, persistence, physical devices, human visual acceptance and full E2E remain unverified. The reporting-schema clarification has static validation only; no new runtime or A/B run was performed for it.
+
 **Scoring:** This skill does **not** bundle a scoring engine. If the user provides a relevant scanner, its output may be quoted with its methodology and limitations, but scores are not CI gates or a proxy for UX quality.
 
 ## Language files
@@ -34,7 +40,7 @@ Audits distinguish observed source evidence, rendered observations, and design j
 
 Prerequisite: a Codex version that supports local Agent Skills. Use the skill directory containing `SKILL.md`; do **not** copy the whole repository into a skill folder.
 
-**From this GitHub repository (after it is published):**
+**From this published GitHub repository:**
 
 ```text
 $skill-installer install https://github.com/YihongTools/ui-design-skill/tree/main/ui-design

@@ -134,8 +134,13 @@ def validate(root):
         errors.append('Missing functional preservation critique rule')
     report = text.partition('4. **Report.**')[2].partition('## AUDIT')[0]
     build_output = text.partition('- **BUILD/FIX**:')[2].splitlines()[0] if '- **BUILD/FIX**:' in text else ''
-    for section, label in ((report, 'Report'), (build_output, 'BUILD/FIX')):
-        if not all(term in section for term in ('each identified functional requirement', 'present and operable / missing or broken / unverified')):
+    if not all(term in report for term in ('each identified functional requirement', 'Requirement | Status | Evidence | Notes',
+                                         'exactly one of `present and operable`, `missing or broken`, or `unverified`',
+                                         "intentional exception to replying in the user's language", 'separately from Status')):
+        errors.append('Missing Report functional status rule')
+    verify_output = text.partition('## Output')[2].partition('- **VERIFY**:')[2].splitlines()[0] if '- **VERIFY**:' in text.partition('## Output')[2] else ''
+    for section, label in ((build_output, 'BUILD/FIX'), (verify_output, 'VERIFY')):
+        if 'canonical functional-requirement reporting schema in Report' not in section:
             errors.append(f'Missing {label} functional status rule')
     if text.count('Design system: <source>') != 1:
         errors.append('V2.1 compact Design system row syntax must be defined exactly once in runtime Skill')
@@ -180,12 +185,16 @@ def validate(root):
         critique = translation.partition('2. **批評**')[2].partition('3. **修正**')[0]
         if not all(term in plan for term in ('辨認 brief 明訂的功能需求', '必要狀態、操作、呈現資訊、完成行為', '錯誤行為')):
             errors.append('Translation missing functional requirement identification rule')
-        if not all(term in critique for term in ('功能需求', '仍存在且可操作', 'High 嚴重度 regression', '不能用')):
+        if not all(term in critique for term in ('功能需求', '仍存在且可操作', 'High 嚴重度 defect', '不能用')):
             errors.append('Translation missing functional preservation critique rule')
         report = translation.partition('4. **回報**')[2].partition('## AUDIT')[0]
         build_output = translation.partition('- **BUILD/FIX**：')[2].splitlines()[0] if '- **BUILD/FIX**：' in translation else ''
-        for section, label in ((report, 'Report'), (build_output, 'BUILD/FIX')):
-            if not all(term in section for term in ('每項已辨認功能需求的狀態', '已存在且可操作／遺失或故障／未驗證')):
+        if not all(term in report for term in ('每項已辨認功能需求的狀態', 'Requirement | Status | Evidence | Notes',
+                                             '`present and operable`、`missing or broken` 或 `unverified`')):
+            errors.append('Translation missing Report functional status rule')
+        verify_output = translation.partition('## 輸出')[2].partition('- **VERIFY**：')[2].splitlines()[0] if '- **VERIFY**：' in translation.partition('## 輸出')[2] else ''
+        for section, label in ((build_output, 'BUILD/FIX'), (verify_output, 'VERIFY')):
+            if '依回報的標準功能需求回報格式' not in section:
                 errors.append(f'Translation missing {label} functional status rule')
         if translation.count('Design system: <來源>') != 1:
             errors.append('Translation compact Design system row syntax must be defined exactly once')

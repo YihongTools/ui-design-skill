@@ -7,14 +7,15 @@ This project uses [Semantic Versioning](https://semver.org/), with pre-1.0 relea
 ### Changed
 
 - Clarified VERIFY as a non-editing verification mode by default.
-- Revise now requires BUILD/FIX scope or explicit fix authorization; runtime behavior remains NOT YET VERIFIED after this change.
+- Revise requires BUILD/FIX scope or explicit fix authorization; the retained VERIFY smoke validates one read-only defect-detection scenario, not all modes.
 
 - Removed A/B-evaluation-specific wording from runtime Skill.
-- Added explicit per-requirement status reporting to Render Report and BUILD/FIX output.
+- Centralize functional reporting as `Requirement | Status | Evidence | Notes`; exact English Status values remain machine-checkable even in other response languages, with optional Notes and severity separate from Status. BUILD/FIX and VERIFY reference this single schema.
+- Clarify that missing/lost/broken required functionality is a High-severity defect regardless of visual polish; distinguish static information/state verification from required-action/behavior operability.
 - Normalized the involved Markdown working files to LF; existing index LF and Markdown attribute policy were preserved.
 
 - Identify brief-defined functional requirements before implementation using a short checklist.
-- Check required functionality in actual renders and interactions; lost requirements are High regressions that visual gains cannot offset.
+- Check brief-required functionality in actual renders and relevant interactions; do not invent unspecified behaviors or offset functional defects with visual gains.
 - Clarify that baseline-only features are not automatically authoritative requirements, including diff highlighting.
 - Simplify default exploratory self-use evaluation evidence; reserve stronger provenance for escalated claims or boundaries.
 
@@ -46,10 +47,11 @@ This project uses [Semantic Versioning](https://semver.org/), with pre-1.0 relea
 
 ### Verification status
 
-- Functional-preservation change: runtime UI behavior **NOT YET VERIFIED after this change**; historical evidence does not validate this revision.
+- Retained VERIFY smoke-003 reassessment: **REASSESSMENT_FINDS_EVALUATOR_DEFECT / corrected PASS** for exact-status High defect detection without source edits. Original results preserved; see [evidence history](evals/evidence.md). The intentional fixture still fails its completion-state requirement.
+- Schema/documentation clarification: static validation only; no runtime rerun. No claim that the prior V2.1 A/B regression is fixed or that BUILD quality generally improved.
 
-- Candidate R6 local static validation: **PASS**; 22 validator unittests: **PASS**. Codex V2.1 behavior improvement **NOT VERIFIED**. Prior V2 visual A/B remains **INCONCLUSIVE** (user-provided report; not repeated in this preparation).
-- No GitHub publish, version tag, or release has been performed for 0.2.1.
+- Historical candidate R6 local static validation: **PASS**; 22 validator unittests: **PASS**. Codex V2.1 behavior improvement **NOT VERIFIED**. Prior V2 visual A/B remains **INCONCLUSIVE** (user-provided report; not repeated in this preparation).
+- Repository is public; no version tags or GitHub Releases as checked on 2026-10-14. Local contract/documentation edits remain uncommitted/unpublished; candidate version is unchanged.
 
 ## [0.2.0] - 2026-10-13
 

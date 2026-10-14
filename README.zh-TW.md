@@ -4,7 +4,7 @@
 
 **整合設計、施工、審查、修正與驗證五種模式的 Codex Skill。** 優先考慮產品需求、既有 Design System、使用體驗與證據，不把「看起來像 AI 做的」直接當成缺陷。
 
-> **版本狀態：** `v0.2.1`（Skill V2.1 候選版；尚未發布至 Repository）。已建立可發布的 Repository 結構及靜態檢查；**已有單組 V2 視覺 A/B 報告，結論 INCONCLUSIVE；V2.1 行為、真人視覺驗收、裝置與 E2E 尚未驗證**。評分僅供參考。
+> **版本狀態：** `v0.2.1`（Skill V2.1 未正式發行候選版）。[Repository 已公開](https://github.com/YihongTools/ui-design-skill)；截至 2026-10-14 尚無版本 tag 或 GitHub Release。單一 VERIFY smoke 的修正後驗收結果為 **PASS**，不代表 V2.1 整體品質或產品功能都通過。詳見[證據紀錄](evals/evidence.md)，評分僅供參考。
 
 ## 五種模式
 
@@ -41,6 +41,14 @@ V2.1 強化參考優先方向（無人可答時有明確三方向備援）與 **
 - 可信度：`Confirmed`、`Probable`、`Candidate`、`Exempted`。
 - 嚴重性：`High`、`Medium`、`Low`，以使用影響為主，而非「AI 味」強弱。
 - **無內建數值評分器**。外部掃描結果只作輔助指標，不作 CI 通過門檻；不能宣稱它能衡量 UX 品質。
+
+## 既有實測結果
+
+V2 單組探索性視覺 A/B 的回報結論為 **INCONCLUSIVE**。V2.1 A/B 的該次案例回報為 **REGRESSED**：重新設計遺失必要的工作階段完成狀態，critique 也未發現。這些結論來自保留的 Owner 報告；本 Repository 未附原始 A/B artifacts，不能宣稱目前 BUILD 已修好該問題。
+
+VERIFY 的歷程則不同：smoke-001 卡在 child 無法 Render；smoke-002 R1 因 installed Skill 不一致而停止，R2 已由 child 成功渲染並辨認 High 缺陷，但未遵守當時要求的輸出詞彙。smoke-003 使用了 exact Status labels；原 evaluator 卻把「顯示目前處理進度」擴成未要求的動態更新行為而判 FAIL。重評確認 evaluator 缺陷，修正後驗收為 **PASS**。這表示 VERIFY 能發現並分類故意保留的缺陷、且保持唯讀；fixture 本身仍缺少「審閱完成」狀態。各次結果與來源分開列於[證據紀錄](evals/evidence.md)。
+
+動態更新、持久化、實體裝置、真人視覺驗收及完整 E2E 仍未驗證。本次回報格式澄清只做靜態檢查，沒有追加 runtime 或 A/B 實測。
 
 ## 安裝到 Windows Codex
 

@@ -88,7 +88,13 @@ Required after BUILD or FIX. VERIFY runs steps 1, 2, and 4; step 3 Revise applie
    - For greenfield or substantial redesign, **check each applicable row of the defaults table against the render**. A chosen replacement that is not visible on screen counts as a template-like item and must be closed in Revise. For brief-fixed or design-system-governed rows, evaluate compliance as defined in step 3 rather than forcing a replacement. Without a render, state **visual not verified**.
    Tie each observation to a place on the screen. "Overall more polished" is not an observation.
 3. **Revise.** Only under BUILD/FIX or explicit fix authorization. Restore required functionality before visual polish. Close each template-like item named in the critique as **Changed** (cite the edit) or **Intentionally retained, because ...** (cite a concrete product, brief, brand, or usability fact). "Looks fine" or "clean" is not a reason. A functional fix does not close a separate template critique. Re-render after changes when possible; use at most two revision rounds and report remaining issues.
-4. **Report.** Give screenshot paths, observable changes, the status of each identified functional requirement (present and operable / missing or broken / unverified), unverified checks, and each template-like item's disposition. For every identified functional requirement, the Status field must be exactly one of `present and operable`, `missing or broken`, or `unverified`; do not substitute synonymous or free-form labels, including translations. Put additional explanations in Evidence or Notes, not in Status. Never claim rendered improvement without an actual render.
+4. **Report.** Give screenshot paths, observable changes, each identified functional requirement using the canonical functional-requirement reporting schema below, unverified checks, and each template-like item's disposition. Never claim rendered improvement without an actual render.
+
+**Canonical functional-requirement reporting schema.** Report one row per identified requirement using `Requirement | Status | Evidence | Notes`:
+- **Requirement**: the required state, action, information, or behavior.
+- **Status**: exactly one of `present and operable`, `missing or broken`, or `unverified`. These English labels are an intentional exception to replying in the user's language, for machine-checkable reporting. Do not substitute synonyms, free-form wording, translations, or compound labels.
+- **Evidence**: concrete rendered, interaction, source-level, device, or test evidence supporting the classification.
+- **Notes**: optional qualifications, such as narrower verified scope, untested behavior, or limitations; may be empty. Report severity here when required, separately from Status.
 
 ## AUDIT
 
@@ -107,9 +113,9 @@ Write each finding on one line: `Location · What was seen · User impact · Min
 
 Reply in the language the user writes in; if unclear, use English. Keep code, identifiers, file paths, and command lines in their original form. Keep the length proportional to the task.
 - **PLAN**: the direction sentence, authorities, layout/token/component approach, open decisions, and checkable acceptance criteria. For greenfield or substantial redesign, include the supplied references and transferable traits **or three candidate directions with the selected choice** when step 2 applies, plus the step 3 three-row defaults table. Governed rows may use step 3's compact form; no edits.
-- **BUILD/FIX**: files changed, visual and interaction changes, render evidence, the status of each identified functional requirement (present and operable / missing or broken / unverified) using the exact Status field contract in Report, and known limitations. Distinguish "implemented" from "verified".
+- **BUILD/FIX**: files changed, visual and interaction changes, render evidence, functional requirements using the canonical functional-requirement reporting schema in Report, and known limitations. Distinguish "implemented" from "verified".
 - **AUDIT**: findings ordered by impact, with the scope and evidence limits stated.
-- **VERIFY**: the viewports, devices, and commands actually used, the status of each identified functional requirement (present and operable / missing or broken / unverified) using the exact Status field contract in Report, with a severity for any missing or broken one, observed results, and what remains unverified.
+- **VERIFY**: the viewports, devices, and commands actually used, functional requirements using the canonical functional-requirement reporting schema in Report, severity for each requirement classified as missing or broken, observed results, and what remains unverified.
 
 Never claim a visual, device, or end-to-end pass based only on static code, mocks, unit tests, or a successful build. Do not say you did something you did not run.
 
