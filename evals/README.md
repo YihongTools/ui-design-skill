@@ -32,11 +32,11 @@ See [retained evidence history](evidence.md): one VERIFY defect-detection/read-o
 
 ## Goal
 
-Test whether `ui-design` is discovered and actually changes Codex's behavior in the intended way. Static package checks, attractive screenshots, and one successful answer are **not** runtime evidence.
+Test whether `ui-design` is discovered and actually changes Claude's behavior in the intended way. Static package checks, attractive screenshots, and one successful answer are **not** runtime evidence.
 
 ## Scope and baseline
 
-- **Prerequisite:** Install `ui-design` under a supported user/repository Skill directory and confirm Codex can explicitly invoke `$ui-design`.
+- **Prerequisite:** Install `ui-design` under a supported user/repository Skill directory and confirm Claude can explicitly invoke `/ui-design`.
 - **Environment:** Use a disposable copy of `evals/fixtures/web-ui` and `evals/fixtures/intentional-brand` for web cases; use a disposable Android sample project for Android cases if available. Never run FIX/BUILD on production or personal repositories during initial evaluation.
 - **Compare baseline vs Skill:** run the same cases, same model/effort, same initial files, same authorization and tool availability (A: skill disabled or not invoked; B: explicitly invoke skill). Record exact version, hash, model/effort, and environment.
 - **No live network or dependencies** unless explicitly required and authorized. Avoid private data. No push, merge, release, or migration during evaluation.
@@ -64,10 +64,10 @@ Evaluate with an explicit rubric (0 = fails, 1 = mixed, 2 = good) for **task-spe
 - For native Android: real/emulator rendering, font scaling, interaction and accessibility checks are separately required; static text cannot support `DEVICE PASS`.
 - Track case ID, baseline/candidate, reproducible input, actual output, deterministic assertions, judged rubric, token/time/tool-cost if observable, unverified layers, and final status.
 
-## Execution outline for future Codex tests
+## Execution outline for future Claude tests
 
 1. `python scripts/validate_skill.py` and `python -m unittest discover -s scripts -p 'test_*.py' -v`.
-2. Check skill discovery: Codex must list or accept `$ui-design`; record tool/CLI version.
+2. Check skill discovery: Claude must list or accept `/ui-design`; record tool/CLI version.
 3. Select first four low-risk cases (EV-01, EV-02, EV-05, EV-09) in fresh disposable worktrees; compare baseline and explicit-skill outcomes.
 4. If they pass critical boundaries, run remaining cases. Capture diff, file locations, commands, and render evidence where possible.
 5. Report `COMPLETE`, `COMPLETE_WITH_LIMITATIONS`, `PARTIAL`, or `BLOCKED` only for evidence that was actually obtained. Keep discovered defects as follow-ups; do not silently change evaluation cases mid-run.
@@ -76,7 +76,7 @@ Evaluate with an explicit rubric (0 = fails, 1 = mixed, 2 = good) for **task-spe
 
 | Case | Skill invoked? | Mode | Unauthorized change? | Core assertions | Render/device | Observed limitations |
 | --- | --- | --- | --- | --- | --- | --- |
-| EV-01 | NOT RUN | NOT RUN | NOT RUN | NOT RUN | NOT RUN | Pending Codex runtime |
+| EV-01 | NOT RUN | NOT RUN | NOT RUN | NOT RUN | NOT RUN | Pending Claude runtime |
 
 This repository intentionally contains **no fake PASS results or synthetic score claims**.
 

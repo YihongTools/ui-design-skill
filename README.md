@@ -1,6 +1,6 @@
 # ui-design
 
-**A product-first design and UI audit skill for Codex.** Plan, build, audit, fix, and verify web and native Android interfaces without mistaking a generic AI-looking style for a usability defect.
+**A product-first design and UI audit skill for Claude (Claude Code and other Claude surfaces that support Agent Skills).** Plan, build, audit, fix, and verify web and native Android interfaces without mistaking a generic AI-looking style for a usability defect.
 
 > **Release status:** `v0.2.1` (Skill V2.1 unreleased candidate). The [repository is public](https://github.com/YihongTools/ui-design-skill); no version tags or GitHub Releases exist as checked on 2026-10-14. One VERIFY smoke has corrected acceptance **PASS**; this is not a general V2.1 quality or product-feature pass. See [evidence history](evals/evidence.md). Scores are advisory only.
 >
@@ -32,25 +32,19 @@ Dynamic updates, persistence, physical devices, human visual acceptance and full
 
 ## Language files
 
-- [`ui-design/SKILL.md`](ui-design/SKILL.md) — canonical English instruction for Codex Skill discovery and execution (V2.1 candidate).
+- [`ui-design/SKILL.md`](ui-design/SKILL.md) — canonical English instruction for Claude Skill discovery and execution (V2.1 candidate).
 - [`docs/SKILL.zh-TW.md`](docs/SKILL.zh-TW.md) — Traditional Chinese reading reference outside the installed Skill directory. English `SKILL.md` controls.
-- When updating an existing Codex installation, replace **`ui-design/SKILL.md`** in the installed Skill directory, then restart Codex or open a new conversation. The repository stores the translation under `docs/`; the standalone Codex ZIP also includes its synchronized copy under `ui-design/SKILL.zh-TW.md` for users updating older installations. Only English `SKILL.md` is executed as the Skill entry point.
+- When updating an existing installation, replace **`ui-design/SKILL.md`** in the installed Skill directory, then start a new Claude session. The repository stores the translation under `docs/`; a standalone ZIP may also include its synchronized copy under `ui-design/SKILL.zh-TW.md` for users updating older installations. Only English `SKILL.md` is executed as the Skill entry point.
 
 ## Installation
 
-Prerequisite: a Codex version that supports local Agent Skills. Use the skill directory containing `SKILL.md`; do **not** copy the whole repository into a skill folder.
+Prerequisite: Claude Code (or another Claude surface) with Agent Skills support. Use the skill directory containing `SKILL.md`; do **not** copy the whole repository into a skill folder.
 
-**From this published GitHub repository:**
-
-```text
-$skill-installer install https://github.com/YihongTools/ui-design-skill/tree/main/ui-design
-```
-
-Or install locally on Windows with PowerShell 7 or Windows PowerShell 5.1 from a cloned/unpacked checkout:
+Personal install (all projects) with PowerShell, from a cloned/unpacked checkout:
 
 ```powershell
 $source = Join-Path (Get-Location) 'ui-design'
-$destination = Join-Path $HOME '.agents\skills\ui-design'
+$destination = Join-Path $HOME '.claude\skills\ui-design'
 if (-not (Test-Path (Join-Path $source 'SKILL.md'))) { throw 'Run from the repository root.' }
 if (Test-Path $destination) { throw 'Existing ui-design skill found; do not overwrite.' }
 New-Item -ItemType Directory -Force -Path (Split-Path $destination) | Out-Null
@@ -58,16 +52,16 @@ Copy-Item -LiteralPath $source -Destination $destination -Recurse
 Test-Path (Join-Path $destination 'SKILL.md')
 ```
 
-The local discovery location follows current Codex skill documentation. If your Codex version uses a different location or the skill isn't listed, check its documentation and restart Codex. Another installer may use `$CODEX_HOME/skills` (usually `~/.codex/skills`); do not install a second copy unless necessary, because duplicate skill names can create ambiguity.
+macOS/Linux: `cp -r ui-design ~/.claude/skills/ui-design`. For a single project, copy it to `<project>/.claude/skills/ui-design` instead. Install only one copy to avoid duplicate-name ambiguity, then start a new Claude session.
 
 ## Usage
 
 ```text
-$ui-design PLAN — propose a layout using the existing design system; do not edit files.
-$ui-design AUDIT — review this screen, cite file/line evidence, and do not modify code.
-$ui-design BUILD — implement only the approved settings screen and verify it.
-$ui-design FIX — address confirmed finding UI-03 with the smallest reversible change.
-$ui-design VERIFY — check this changed screen; state unverified browser/device layers.
+/ui-design PLAN — propose a layout using the existing design system; do not edit files.
+/ui-design AUDIT — review this screen, cite file/line evidence, and do not modify code.
+/ui-design BUILD — implement only the approved settings screen and verify it.
+/ui-design FIX — address confirmed finding UI-03 with the smallest reversible change.
+/ui-design VERIFY — check this changed screen; state unverified browser/device layers.
 ```
 
 For implicit invocation (when not named explicitly), the skill's frontmatter describes the appropriate UI tasks. It should not activate for backend-only changes.
@@ -83,7 +77,7 @@ scripts/
   validate_skill.py         # Standard-library, static format/contract check
   test_validate_skill.py    # Validator regression tests
 evals/
-  README.md                 # Proposed Codex runtime evaluation procedure
+  README.md                 # Proposed Claude runtime evaluation procedure
   cases.json                # Evaluation contract, not run results
   fixtures/                 # Small web-only example surfaces
 .github/workflows/
@@ -99,7 +93,7 @@ python scripts/validate_skill.py
 python -m unittest discover -s scripts -p 'test_*.py' -v
 ```
 
-These checks validate packaging and explicit Skill contract markers; they **cannot** establish that Codex invokes the skill correctly or improves a rendered UI. Follow [the evaluation contract](evals/README.md) for a real Codex test after publication/local installation. See [CHANGELOG](CHANGELOG.md).
+These checks validate packaging and explicit Skill contract markers; they **cannot** establish that Claude invokes the skill correctly or improves a rendered UI. Follow [the evaluation contract](evals/README.md) for a real Claude test after publication/local installation. See [CHANGELOG](CHANGELOG.md).
 
 ## Scope and attribution
 

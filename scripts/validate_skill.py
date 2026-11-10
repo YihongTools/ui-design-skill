@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static checks only. Does not run Codex or evaluate UI quality."""
+"""Static checks only. Does not run Claude or evaluate UI quality."""
 
 import argparse
 import json
@@ -266,7 +266,7 @@ def main():
             print(f'FAIL: {error}', file=sys.stderr)
         return 1
     print('PASS: static Skill metadata, contract, release files, and eval schema checks')
-    print('NOT RUN: Codex behavior, rendered UI, device/E2E, accessibility acceptance')
+    print('NOT RUN: Claude behavior, rendered UI, device/E2E, accessibility acceptance')
     return 0
 
 

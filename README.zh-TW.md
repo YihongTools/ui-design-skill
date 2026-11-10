@@ -1,8 +1,8 @@
-# ui-design — Codex UI 設計與審查 Skill
+# ui-design — Claude UI 設計與審查 Skill
 
 [English](README.md)
 
-**整合設計、施工、審查、修正與驗證五種模式的 Codex Skill。** 優先考慮產品需求、既有 Design System、使用體驗與證據，不把「看起來像 AI 做的」直接當成缺陷。
+**整合設計、施工、審查、修正與驗證五種模式的 Claude Skill。** 優先考慮產品需求、既有 Design System、使用體驗與證據，不把「看起來像 AI 做的」直接當成缺陷。
 
 > **版本狀態：** `v0.2.1`（Skill V2.1 未正式發行候選版）。[Repository 已公開](https://github.com/YihongTools/ui-design-skill)；截至 2026-10-14 尚無版本 tag 或 GitHub Release。單一 VERIFY smoke 的修正後驗收結果為 **PASS**，不代表 V2.1 整體品質或產品功能都通過。詳見[證據紀錄](evals/evidence.md)，評分僅供參考。
 
@@ -31,9 +31,9 @@ V2.1 強化參考優先方向（無人可答時有明確三方向備援）與 **
 
 ## 雙語 Skill 文件
 
-- [`ui-design/SKILL.md`](ui-design/SKILL.md)：V2.1 候選版英文主檔，**Codex 執行的唯一權威規格**。
+- [`ui-design/SKILL.md`](ui-design/SKILL.md)：V2.1 候選版英文主檔，**Claude 執行的唯一權威規格**。
 - [`docs/SKILL.zh-TW.md`](docs/SKILL.zh-TW.md)：V2.1 繁體中文閱讀參考，放在 Skill 目錄外，若有差異以英文版為準。
-- GitHub 更新不代表本機已同步。已安裝的 Codex 使用者可從獨立 Codex ZIP 將英文 `SKILL.md` 與同步後的中文閱讀檔更新到原本的 `ui-design` 資料夾，然後重啟 Codex 或建立新對話，不必重裝 Codex。英文主檔才是 Skill 執行入口，Repository 中的中文版則放在 `docs/`。
+- GitHub 更新不代表本機已同步。已安裝的 Claude 使用者可從獨立 ZIP 將英文 `SKILL.md` 與同步後的中文閱讀檔更新到原本的 `ui-design` 資料夾，然後重啟 Claude 或建立新對話，不必重裝。英文主檔才是 Skill 執行入口，Repository 中的中文版則放在 `docs/`。
 
 ## 審查與評分
 
@@ -50,19 +50,13 @@ VERIFY 的歷程則不同：smoke-001 卡在 child 無法 Render；smoke-002 R1 
 
 動態更新、持久化、實體裝置、真人視覺驗收及完整 E2E 仍未驗證。本次回報格式澄清只做靜態檢查，沒有追加 runtime 或 A/B 實測。
 
-## 安裝到 Windows Codex
+## 安裝到 Claude
 
-從 **GitHub Repository** 安裝，可在 Codex 使用：
-
-```text
-$skill-installer install https://github.com/YihongTools/ui-design-skill/tree/main/ui-design
-```
-
-或者下載完整 Repository／從本機目錄安裝（PowerShell 5.1 或 7；在 Repository 根目錄執行）：
+在 Repository 根目錄以 PowerShell 執行（使用者層級，所有專案可用）：
 
 ```powershell
 $source = Join-Path (Get-Location) 'ui-design'
-$target = Join-Path $HOME '.agents\skills\ui-design'
+$target = Join-Path $HOME '.claude\skills\ui-design'
 if (-not (Test-Path (Join-Path $source 'SKILL.md'))) { throw '請在 Repository 根目錄執行。' }
 if (Test-Path $target) { throw 'ui-design 已存在，請先確認，避免覆蓋。' }
 New-Item -ItemType Directory -Force -Path (Split-Path $target) | Out-Null
@@ -70,16 +64,16 @@ Copy-Item -LiteralPath $source -Destination $target -Recurse
 Test-Path (Join-Path $target 'SKILL.md')
 ```
 
-預期輸出 `True`。Skill 應放在使用者層級的 `.agents/skills/ui-design`，不要把整個 GitHub Repository 複製進 Skill 目錄。如果你目前使用的 `$skill-installer` 採 `$CODEX_HOME/skills`（通常為 `.codex/skills`），請依當前 Codex 文件與環境擇一安裝，避免同名 Skill 重複。若安裝後未列出，重新啟動 Codex。
+預期輸出 `True`。macOS/Linux 可用 `cp -r ui-design ~/.claude/skills/ui-design`；若只用於單一專案，改放 `<專案>/.claude/skills/ui-design`。不要把整個 GitHub Repository 複製進 Skill 目錄，只裝一份以免同名衝突；安裝後開新的 Claude 工作階段。
 
 ## 使用範例
 
 ```text
-$ui-design PLAN：依現有 Design System 規劃 Settings 畫面，不修改程式碼。
-$ui-design AUDIT：唯讀檢查此畫面的 UI，提供檔案／行號與證據層，禁止修正。
-$ui-design BUILD：只實作已核准的畫面，最後回報實際驗證範圍。
-$ui-design FIX：只修正已確認的 UI-03，避免無關重設計。
-$ui-design VERIFY：檢查修改後的畫面，列出尚未實測的裝置／瀏覽器項目。
+/ui-design PLAN：依現有 Design System 規劃 Settings 畫面，不修改程式碼。
+/ui-design AUDIT：唯讀檢查此畫面的 UI，提供檔案／行號與證據層，禁止修正。
+/ui-design BUILD：只實作已核准的畫面，最後回報實際驗證範圍。
+/ui-design FIX：只修正已確認的 UI-03，避免無關重設計。
+/ui-design VERIFY：檢查修改後的畫面，列出尚未實測的裝置／瀏覽器項目。
 ```
 
 ## 如何檢查與實測
@@ -91,9 +85,9 @@ python scripts/validate_skill.py
 python -m unittest discover -s scripts -p 'test_*.py' -v
 ```
 
-以上僅檢查 Skill 格式及契約文字，不能證明 Codex 會正確啟動或遵守規則。
+以上僅檢查 Skill 格式及契約文字，不能證明 Claude 會正確啟動或遵守規則。
 
-完成安裝後，再依 [`evals/README.md`](evals/README.md) 的 **evaluation-first** 規格，在乾淨的測試工作目錄執行 Codex 實測。`evals/cases.json` 是測試案例，不是已通過的測試結果。
+完成安裝後，再依 [`evals/README.md`](evals/README.md) 的 **evaluation-first** 規格，在乾淨的測試工作目錄執行 Claude 實測。`evals/cases.json` 是測試案例，不是已通過的測試結果。
 
 ## 來源、授權與限制
 

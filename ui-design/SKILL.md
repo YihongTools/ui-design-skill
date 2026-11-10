@@ -77,7 +77,7 @@ Distinctiveness must not undermine readability, contrast, touch targets, or plat
 Required after BUILD or FIX. VERIFY runs steps 1, 2, and 4; step 3 Revise applies only under BUILD/FIX or when fixes are explicitly authorized. Severity, confirmed regression, small scope, or reversibility do not grant fix authorization.
 
 1. **Render.** Get the actual screen by whatever means the environment offers, and actually open and look at the image. Do not imagine it from the code.
-   - Web: headless-browser screenshots, at least one narrow (about 390 px) and one wide.
+   - Web: browser screenshots (in Claude Code, the built-in browser tools via a local dev server or file URL, resizing the viewport; otherwise a headless browser), at least one narrow (about 390 px) and one wide.
    - Android: Compose `@Preview` or the project's existing screenshot tests; or on an emulator or device, `adb shell screencap -p /sdcard/screen.png` followed by `adb pull /sdcard/screen.png`. (In Windows PowerShell, do not redirect binary output with `>`; it corrupts the image.) For dark mode, run `adb shell cmd uimode night yes` and capture again.
    - If the environment cannot render, state "visual not verified" and fall back to a source-level self-critique. Never claim a visual pass.
 2. **Critique.** Compare against the direction sentence and the references **or the selected candidate direction**, and write concrete observations:

@@ -75,7 +75,7 @@
 BUILD/FIX 完成後必做；VERIFY 只執行步驟 1、2、4。步驟 3 Revise 僅在 BUILD/FIX 或使用者明確授權修正後執行。嚴重度、已確認的 regression、修改很小或可回復，都不構成修正授權。
 
 1. **渲染**：用環境中任何可用的方式取得實際畫面，並真的開啟圖片來看，不要憑程式碼想像。
-   - Web：無頭瀏覽器截圖，至少窄版（約 390px）與寬版各一張。
+   - Web：瀏覽器截圖（Claude Code 可用內建瀏覽器工具，搭配本機 dev server 或 file URL 並調整視窗大小；否則用無頭瀏覽器），至少窄版（約 390px）與寬版各一張。
    - Android：Compose `@Preview` 或專案既有的截圖測試；或在模擬器/實機上用 `adb shell screencap -p /sdcard/screen.png`，再 `adb pull /sdcard/screen.png`（在 Windows PowerShell 不要用 `>` 轉存二進位輸出，會損毀圖檔）。深色模式可用 `adb shell cmd uimode night yes` 後再截一張。
    - 環境無法渲染時，明說「視覺未驗證」，改做原始碼層級的自我批評，不得宣稱視覺通過。
 2. **批評**：對照方向句與參考（或選定的候選方向），寫出具體觀察：

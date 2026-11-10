@@ -6,6 +6,8 @@ This project uses [Semantic Versioning](https://semver.org/), with pre-1.0 relea
 
 ### Changed
 
+- Retargeted packaging from Codex to Claude: install paths (`~/.claude/skills/ui-design`), `/ui-design` invocation in README, evals and checklist, and Claude browser tools named in the Web render step. Historical entries below keep their original Codex wording.
+
 - Clarified VERIFY as a non-editing verification mode by default.
 - Revise requires BUILD/FIX scope or explicit fix authorization; the retained VERIFY smoke validates one read-only defect-detection scenario, not all modes.
 
