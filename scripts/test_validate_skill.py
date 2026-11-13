@@ -40,6 +40,8 @@ BREAKAGES = (
     ('translation not UTF-8', edit_bytes('docs/SKILL.zh-TW.md', to_cp950), 'UTF-8'),
     ('translation has frontmatter', edit_bytes('docs/SKILL.zh-TW.md', lambda data: b'---\nname: x\n---\n' + data), 'discovery frontmatter'),
     ('translation inside skill folder', lambda root: (root / 'ui-design' / 'SKILL.zh-TW.md').write_text('x', encoding='utf-8'), 'must live in docs/'),
+    ('reference file removed', lambda root: (root / 'ui-design' / 'references' / 'states.md').unlink(), 'links missing reference file: states.md'),
+    ('reference file not linked', lambda root: (root / 'ui-design' / 'references' / 'orphan.md').write_text('x', encoding='utf-8'), 'not linked from SKILL.md: orphan.md'),
     ('release file removed', lambda root: (root / 'LICENSE').unlink(), 'Missing release file: LICENSE'),
     ('README lost translation link', edit_bytes('README.md', lambda data: data.replace(b'docs/SKILL.zh-TW.md', b'docs/gone.md')), 'README.md must link'),
     ('cases removed', lambda root: (root / 'evals' / 'cases.json').unlink(), 'Missing evals/cases.json'),
@@ -54,7 +56,7 @@ BREAKAGES = (
     ('blank prompt', edit_cases(lambda cases: cases[0].__setitem__('prompt', ' ')), 'Missing evaluation prompt'),
     ('blank must', edit_cases(lambda cases: cases[0].__setitem__('must', [''])), 'Missing must assertions'),
     ('non-text must_not', edit_cases(lambda cases: cases[0].__setitem__('must_not', [123])), 'Missing must_not assertions'),
-    ('a mode has no case', edit_cases(lambda cases: [c.__setitem__('mode', 'AUDIT') for c in cases if c['mode'] == 'VERIFY']), 'cover all five modes'),
+    ('a mode has no case', edit_cases(lambda cases: [c.__setitem__('mode', 'AUDIT') for c in cases if c['mode'] == 'VERIFY']), 'must cover every mode'),
     ('a platform has no case', edit_cases(lambda cases: [c.__setitem__('platform', 'web') for c in cases if c['platform'] == 'negative']), 'must cover web'),
     ('fixture removed', lambda root: shutil.rmtree(root / 'evals' / 'fixtures' / 'web-ui'), 'references missing fixture'),
 )

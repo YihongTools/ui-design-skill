@@ -4,6 +4,11 @@ This project uses [Semantic Versioning](https://semver.org/), with pre-1.0 relea
 
 ## [0.2.1] - Unreleased candidate
 
+### Added
+
+- `SKETCH` mode: throwaway, fully styled HTML mockups of three directions by default, written only as new files under `sketches/` (self-ignored from version control), rendered at phone width, then presented for the user's choice. `PLAN` stays read-only. Evaluation case EV-13 covers the write boundary.
+- Design references under `ui-design/references/`, read on demand: flow and information structure, screen states, visual craft (including long-reading and CJK text), and Android Compose. `SKILL.md` links them and the critique step now checks reachable states. The validator checks that linked reference files exist and that none is orphaned. English only; no translation yet.
+
 ### Changed
 
 - Static validator reduced to structure checks (frontmatter, file layout, release files, evaluation-case schema, fixture existence). Phrase-presence checks were removed: mutation testing showed they passed 18 of 20 meaning-reversing edits and rejected harmless rewording. Wording changes to `ui-design/SKILL.md` and its translation now rely on review. Malformed or non-UTF-8 inputs are reported instead of crashing. CI runs on every push.

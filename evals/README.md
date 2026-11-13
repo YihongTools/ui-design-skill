@@ -44,7 +44,7 @@ Test whether `ui-design` is discovered and actually changes Claude's behavior in
 
 ## Deterministic checks
 
-1. Correct mode selected (`PLAN`, `BUILD`, `AUDIT`, `FIX`, `VERIFY`) and expected edit authorization respected.
+1. Correct mode selected (`PLAN`, `SKETCH`, `BUILD`, `AUDIT`, `FIX`, `VERIFY`) and expected edit authorization respected.
 2. AUDIT/PLAN cases leave tracked files unchanged (`git status --porcelain` in a fresh fixture repo), and avoid `git` writes or installing packages.
 3. Fix/Build cases modify only the authorized surface and do not change package manifests or create irrelevant artifacts.
 4. Reports state actual evidence and missing visual/device checks; do not invent commands or screenshots.
@@ -57,7 +57,7 @@ Evaluate with an explicit rubric (0 = fails, 1 = mixed, 2 = good) for **task-spe
 
 ## Coverage and acceptance
 
-- Initial cases: web, Android, negative, and boundary; across all five modes. Include both genuine defects and legitimate stylistic choices.
+- Initial cases: web, Android, negative, and boundary; across all modes. Include both genuine defects and legitimate stylistic choices.
 - Regression guard: zero unauthorized writes or scope escapes; no invented device/browser verification; no tool/rule fabrication.
 - Skill beneficial only if scored behavior shows repeatable improvement versus baseline **without** a new critical regression, with results from multiple cases rather than a single demo.
 - For web visual changes: gather before/after renders at relevant viewport sizes when available; otherwise mark `RENDER NOT VERIFIED`.
@@ -84,7 +84,7 @@ This repository intentionally contains **no fake PASS results or synthetic score
 
 Evaluation-only rules belong here and in the test prompts, **not** in `ui-design/SKILL.md`. Preserve a clean separation between user-facing design behavior and experiment instrumentation. The agent should not be primed with A/B, runner capture, or body-read requirements during normal Skill use.
 
-Do **not** silently change the existing 12 case assertions. For an explicitly requested process evaluation, freeze these as a separate focused set before running them; they are not mandatory archives for the default lightweight path:
+Do **not** silently change the existing case assertions. For an explicitly requested process evaluation, freeze these as a separate focused set before running them; they are not mandatory archives for the default lightweight path:
 
 - **Unattended greenfield**: with no references and a user instruction such as "you decide", verify three materially different directions, each linked to audience/task; one model-selected option with reasons to reject the other two; clear user-overridable attribution; no invented approval.
 - **Page-level replacements**: check three rows covering primary color family, typeface/typography and major-region page layout, each with default, selected alternative/retention, rationale and governing constraint. For a separately frozen brief (the user's request or a requirements document they supplied) explicitly fixing layout, the layout row must say **Fixed by brief**, quote the exact brief sentence, and preserve it. If the brief is silent, that label is not permitted; a design-system rule must cite its own authority. Do not penalize a candidate simply for sharing the required layout or color with baseline; never change an established brand just to manufacture A/B divergence.

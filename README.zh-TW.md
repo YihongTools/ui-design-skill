@@ -2,15 +2,16 @@
 
 [English](README.md)
 
-**整合設計、施工、審查、修正與驗證五種模式的 Claude Skill。** 優先考慮產品需求、既有 Design System、使用體驗與證據，不把「看起來像 AI 做的」直接當成缺陷。
+**整合設計、草圖、施工、審查、修正與驗證六種模式的 Claude Skill。** 優先考慮產品需求、既有 Design System、使用體驗與證據，不把「看起來像 AI 做的」直接當成缺陷。
 
 > **版本狀態：** `v0.2.1`（Skill V2.1 未正式發行候選版）。[Repository 已公開](https://github.com/YihongTools/ui-design-skill)；截至 2026-10-14 尚無版本 tag 或 GitHub Release。單一 VERIFY smoke 的修正後驗收結果為 **PASS**，不代表 V2.1 整體品質或產品功能都通過。詳見[證據紀錄](evals/evidence.md)，評分僅供參考。
 
-## 五種模式
+## 六種模式
 
 | 模式 | 功能 | 預設權限 |
 | --- | --- | --- |
 | `PLAN` | 設計方向、內容層級、Design Tokens、驗收條件 | 唯讀 |
+| `SKETCH` | 產出數個方向的可丟棄 HTML 草圖，讓你用看的選 | 只在 `sketches/` 新增檔案 |
 | `BUILD` | 實作已核准的 UI 範圍 | 僅修改授權範圍 |
 | `AUDIT` | 檢查 UI 品質與 AI 制式化特徵，提出證據 | 唯讀 |
 | `FIX` | 修正已確認、已授權的問題 | 最小且可回復修改 |
@@ -70,6 +71,7 @@ Test-Path (Join-Path $target 'SKILL.md')
 
 ```text
 /ui-design PLAN：依現有 Design System 規劃 Settings 畫面，不修改程式碼。
+/ui-design SKETCH：給我報告閱讀頁的三個視覺方向，不要動到 App。
 /ui-design AUDIT：唯讀檢查此畫面的 UI，提供檔案／行號與證據層，禁止修正。
 /ui-design BUILD：只實作已核准的畫面，最後回報實際驗證範圍。
 /ui-design FIX：只修正已確認的 UI-03，避免無關重設計。

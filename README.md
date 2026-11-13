@@ -1,6 +1,6 @@
 # ui-design
 
-**A product-first design and UI audit skill for Claude (Claude Code and other Claude surfaces that support Agent Skills).** Plan, build, audit, fix, and verify web and native Android interfaces without mistaking a generic AI-looking style for a usability defect.
+**A product-first design and UI audit skill for Claude (Claude Code and other Claude surfaces that support Agent Skills).** Plan, sketch, build, audit, fix, and verify web and native Android interfaces without mistaking a generic AI-looking style for a usability defect.
 
 > **Release status:** `v0.2.1` (Skill V2.1 unreleased candidate). The [repository is public](https://github.com/YihongTools/ui-design-skill); no version tags or GitHub Releases exist as checked on 2026-10-14. One VERIFY smoke has corrected acceptance **PASS**; this is not a general V2.1 quality or product-feature pass. See [evidence history](evals/evidence.md). Scores are advisory only.
 >
@@ -11,6 +11,7 @@
 | Mode | Purpose | Default permission |
 | --- | --- | --- |
 | `PLAN` | Clarify design direction, content hierarchy, tokens, and acceptance criteria | Read only |
+| `SKETCH` | Produce throwaway HTML mockups of several directions so you can choose by looking | New files under `sketches/` only |
 | `BUILD` | Implement an approved UI surface | Edit only authorized scope |
 | `AUDIT` | Review quality failures and generic AI-style patterns with evidence | Read only |
 | `FIX` | Apply small, reversible corrections to approved findings | Edit only authorized scope |
@@ -58,6 +59,7 @@ macOS/Linux: `cp -r ui-design ~/.claude/skills/ui-design`. For a single project,
 
 ```text
 /ui-design PLAN — propose a layout using the existing design system; do not edit files.
+/ui-design SKETCH — show three visual directions for the report reader; do not touch the app.
 /ui-design AUDIT — review this screen, cite file/line evidence, and do not modify code.
 /ui-design BUILD — implement only the approved settings screen and verify it.
 /ui-design FIX — address confirmed finding UI-03 with the smallest reversible change.
@@ -70,7 +72,8 @@ For implicit invocation (when not named explicitly), the skill's frontmatter des
 
 ```text
 ui-design/
-  SKILL.md                  # The only installed Skill instruction
+  SKILL.md                  # Skill entry point
+  references/               # Design references SKILL.md reads on demand (flow, states, visual craft, Android)
 docs/
   SKILL.zh-TW.md            # Optional human-readable translation
 scripts/
@@ -97,7 +100,7 @@ These checks validate packaging only (frontmatter, file layout, release files, e
 
 ## Scope and attribution
 
-- Instruction-only Skill: no vendored scanners, remote model calls, network dependencies, or generated assets.
+- Instruction-only Skill (`SKILL.md` plus Markdown references): no vendored scanners, remote model calls, network dependencies, or generated assets.
 - Native Android guidance is platform-aware; Web CSS heuristics are not accepted as proof of native UI quality.
 - Inspired by [Anthropic's `frontend-design`](https://github.com/anthropics/skills/tree/main/skills/frontend-design) and [`anti-ui-slop` in ritmex-skills](https://github.com/discountry/ritmex-skills/tree/main/skills/anti-ui-slop). This repository is **not affiliated with or endorsed by either project**. No upstream script or rule catalog is bundled. See [ATTRIBUTION.md](ATTRIBUTION.md).
 - Original material in this repository is offered under the [MIT License](LICENSE). The repository owner approved MIT licensing for the original material on 2026-10-13.

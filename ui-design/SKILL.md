@@ -1,6 +1,6 @@
 ---
 name: ui-design
-description: Plan, build, review, and visually verify product-specific Web or native Android (Jetpack Compose) UI, using a reference-first direction step (or a documented three-direction fallback) and a render-critique-revise loop to avoid generic AI-default looks. Use this skill whenever the user asks for UI/UX layout, screen design, styling, component design, a UI review, or says things like "make this look better", "the UI looks AI-generated", "redesign this screen", 美化介面, 畫面設計, 介面太像 AI 做的, even if they never say "design". Do not trigger for backend-only work or non-UI code review.
+description: Plan, sketch, build, review, and visually verify product-specific Web or native Android (Jetpack Compose) UI, using a reference-first direction step (or a documented three-direction fallback) and a render-critique-revise loop to avoid generic AI-default looks. Use this skill whenever the user asks for UI/UX layout, user flow or information structure, screen states, screen design, styling, component design, a UI review, visual mockups or sketches of design directions, or says things like "make this look better", "the UI looks AI-generated", "redesign this screen", 美化介面, 畫面設計, 介面太像 AI 做的, even if they never say "design". Do not trigger for backend-only work or non-UI code review.
 ---
 
 # UI Design (V2.1: opinionated, verifiable, lightweight)
@@ -20,12 +20,13 @@ Do not treat an intentional brand choice as a defect or silently expand scope. D
 ## Modes
 
 - **PLAN**: Propose direction, layout, tokens, and acceptance criteria. Do not edit files.
+- **SKETCH**: Throwaway visual exploration so the user can choose a direction by looking. Write only new files under `sketches/` in the project root (self-contained HTML sketches and their screenshots); do not edit or delete any existing file. A sketch is not BUILD authorization. See the SKETCH section.
 - **BUILD**: Implement the requested surface, then run the render feedback loop.
 - **AUDIT**: Read-only. Report findings; do not edit files, install packages, or generate assets. An audit is not authorization to fix.
 - **FIX**: A narrowed BUILD. Address only confirmed defects or defects the user named, with the smallest reversible change.
 - **VERIFY**: Read-only verification by default: run Render and Critique and report. VERIFY is not fix authorization; Revise applies only under BUILD/FIX or when the user explicitly authorizes fixes. No unrelated redesign.
 
-For mixed requests, keep the phases distinct: PLAN → authorized BUILD/FIX → VERIFY. In an existing project, inspect the named or changed UI files first and follow only the tokens and components needed to understand them. Exclude vendored code, generated code, snapshots, and intentional anti-pattern demos.
+For mixed requests, keep the phases distinct: SKETCH or PLAN → authorized BUILD/FIX → VERIFY. In an existing project, inspect the named or changed UI files first and follow only the tokens and components needed to understand them. Exclude vendored code, generated code, snapshots, and intentional anti-pattern demos.
 
 ## Eight principles
 
@@ -64,6 +65,25 @@ Distinctiveness must not undermine readability, contrast, touch targets, or plat
 
 **Pre-implementation decision record.** Before edits, publish the applicable direction and step 3 decisions in the **user-visible response**. Use step 3's compact form for governed rows; only uncovered rows need the full record. When the choice was delegated, continue within authorized scope without waiting for visual-direction approval.
 
+## Design references (read when relevant)
+
+The files below hold the design craft behind this procedure. Before planning or building, read the ones that match the task and skip the rest; in AUDIT and VERIFY, use them as criteria for findings. They are preferences of this skill (priority 4), so project authority overrides them.
+
+- `references/flow-and-structure.md`: what a screen contains, its order, navigation between screens, lists that lead to details, long content.
+- `references/states.md`: any surface that loads data, accepts input, or can fail (loading, empty, error, extremes).
+- `references/visual-craft.md`: type, spacing, color, emphasis, the finishing pass; includes long-reading and Chinese/Japanese/Korean text.
+- `references/android-compose.md`: any Jetpack Compose work.
+
+## SKETCH
+
+Use when the user wants to see directions before committing to one. Invoking SKETCH authorizes new files under `sketches/` only.
+
+1. **Scope.** Name the screen, its primary task, and the functional requirements from the brief, as in PLAN step 1. Keep it to a few lines.
+2. **Directions.** Sketch three materially different directions by default, chosen as in step 2 of the direction section; use a different number only when the user gives one. If an established design system fully governs the surface, vary structure and layout within it instead of inventing palettes or typefaces.
+3. **Files.** Write one file per direction at `sketches/<topic>/<direction>.html`: inline CSS, system font stacks, no dependencies, network requests, remote fonts, or generated images. Style it fully (color, type, spacing) and fill it with representative content in the product's language, not placeholder text. Show the key screen in its normal state unless the user asks for others. If `sketches/.gitignore` does not exist, create it containing `*` so sketches stay out of version control. Use a new topic folder rather than overwriting earlier sketches.
+4. **Render.** Open each sketch at phone width (about 390 px) and look at it; render other widths only on request. Fix rendering breakage in the sketch files, in one pass. If the environment cannot render, state "visual not verified" and give the file paths.
+5. **Present and stop.** For each direction give its direction sentence, what distinguishes it in color, type, and layout, the file path, and the screenshot. Recommend one, labeled **Model-selected; user may override**, then wait for the user's choice. Say plainly that these are web sketches: for an Android product they approximate layout and style, while fonts, components, and system bars will differ on a device. The chosen sketch is a reference for PLAN or BUILD, not code to ship.
+
 ## PLAN / BUILD procedure
 
 1. Define the surface and its primary task, real content, constraints, and what must stay unchanged. Identify functional requirements stated in the brief: required states, actions, information shown, completion behavior, and error behavior when specified. A short checklist is enough for a simple screen; do not invent unspecified features or require a large requirements document. Required behavior comes from the brief, governing product requirements, or existing authoritative behavior/design-system contracts.
@@ -85,6 +105,7 @@ Required after BUILD or FIX. VERIFY runs steps 1, 2, and 4; step 3 Revise applie
    - The two spots that look most like a default template.
    - The one issue that most hurts usability (contrast, touch target, hierarchy, truncation or overflow, long-text readability).
    - Whether the signature decision is actually visible.
+   - For a surface that loads data, accepts input, or can fail, whether each reachable state (`references/states.md`) is designed; render the ones the environment can reach and list the rest as not visually verified.
    - For greenfield or substantial redesign, **check each applicable row of the defaults table against the render**. A chosen replacement that is not visible on screen counts as a template-like item and must be closed in Revise. For brief-fixed or design-system-governed rows, evaluate compliance as defined in step 3 rather than forcing a replacement. Without a render, state **visual not verified**.
    Tie each observation to a place on the screen. "Overall more polished" is not an observation.
 3. **Revise.** Only under BUILD/FIX or explicit fix authorization. Restore required functionality before visual polish. Close each template-like item named in the critique as **Changed** (cite the edit) or **Intentionally retained, because ...** (cite a concrete product, brief, brand, or usability fact). "Looks fine" or "clean" is not a reason. A functional fix does not close a separate template critique. Re-render after changes when possible; use at most two revision rounds and report remaining issues.
@@ -113,6 +134,7 @@ Write each finding on one line: `Location · What was seen · User impact · Min
 
 Reply in the language the user writes in; if unclear, use English. Keep code, identifiers, file paths, and command lines in their original form. Keep the length proportional to the task.
 - **PLAN**: the direction sentence, authorities, layout/token/component approach, open decisions, and checkable acceptance criteria. For greenfield or substantial redesign, include the supplied references and transferable traits **or three candidate directions with the selected choice** when step 2 applies, plus the step 3 three-row defaults table. Governed rows may use step 3's compact form; no edits.
+- **SKETCH**: per direction, the direction sentence, distinguishing choices, file path, and screenshot or "visual not verified"; the model-selected recommendation; a statement that nothing outside `sketches/` was changed.
 - **BUILD/FIX**: files changed, visual and interaction changes, render evidence, functional requirements using the canonical functional-requirement reporting schema in Report, and known limitations. Distinguish "implemented" from "verified".
 - **AUDIT**: findings ordered by impact, with the scope and evidence limits stated.
 - **VERIFY**: the viewports, devices, and commands actually used, functional requirements using the canonical functional-requirement reporting schema in Report, severity for each requirement classified as missing or broken, observed results, and what remains unverified.

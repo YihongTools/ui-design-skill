@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-REQUIRED_MODES = ('PLAN', 'BUILD', 'AUDIT', 'FIX', 'VERIFY')
+REQUIRED_MODES = ('PLAN', 'SKETCH', 'BUILD', 'AUDIT', 'FIX', 'VERIFY')
 ALLOWED_EVAL_MODES = REQUIRED_MODES + ('NONE',)
 REQUIRED_TYPES = ('web', 'native-android', 'negative', 'boundary')
 RELEASE_FILES = ('README.md', 'README.zh-TW.md', 'LICENSE', 'CHANGELOG.md', 'ATTRIBUTION.md',
@@ -57,6 +57,13 @@ def _validate(root):
             errors.append('Description must be between 20 and 1024 characters')
     except ValueError as exc:
         errors.append(str(exc))
+
+    linked = set(re.findall(r'references/([\w-]+\.md)', text))
+    present = {path.name for path in (root / 'ui-design' / 'references').glob('*.md')}
+    for name in sorted(linked - present):
+        errors.append(f'SKILL.md links missing reference file: {name}')
+    for name in sorted(present - linked):
+        errors.append(f'Reference file not linked from SKILL.md: {name}')
 
     if (root / 'ui-design' / 'SKILL.zh-TW.md').exists():
         errors.append('Reference translation must live in docs/, not installed Skill folder')
@@ -123,7 +130,7 @@ def _validate_cases(root):
             if not (root / fixture).exists():
                 errors.append(f'Evaluation case {cid} references missing fixture: {fixture}')
     if seen_modes != set(REQUIRED_MODES):
-        errors.append('Evaluation cases must cover all five modes')
+        errors.append('Evaluation cases must cover every mode')
     if seen_types != set(REQUIRED_TYPES):
         errors.append('Evaluation cases must cover web, native-android, negative, boundary')
     return errors
