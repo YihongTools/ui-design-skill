@@ -1,18 +1,9 @@
 name: Static Skill Validation
 
 on:
+  # No path filter: the validator also reads docs/, both READMEs and root release files.
   push:
-    paths:
-      - 'ui-design/**'
-      - 'scripts/**'
-      - 'evals/**'
-      - '.github/workflows/validate.yml'
   pull_request:
-    paths:
-      - 'ui-design/**'
-      - 'scripts/**'
-      - 'evals/**'
-      - '.github/workflows/validate.yml'
   workflow_dispatch:
 
 permissions:
@@ -28,7 +19,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Validate Skill contract
+      - name: Validate Skill package
         run: python scripts/validate_skill.py
       - name: Test validator
         run: python -m unittest discover -s scripts -p 'test_*.py' -v

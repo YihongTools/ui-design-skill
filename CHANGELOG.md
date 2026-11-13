@@ -6,6 +6,8 @@ This project uses [Semantic Versioning](https://semver.org/), with pre-1.0 relea
 
 ### Changed
 
+- Static validator reduced to structure checks (frontmatter, file layout, release files, evaluation-case schema, fixture existence). Phrase-presence checks were removed: mutation testing showed they passed 18 of 20 meaning-reversing edits and rejected harmless rewording. Wording changes to `ui-design/SKILL.md` and its translation now rely on review. Malformed or non-UTF-8 inputs are reported instead of crashing. CI runs on every push.
+
 - Retargeted packaging from Codex to Claude: install paths (`~/.claude/skills/ui-design`), `/ui-design` invocation in README, evals and checklist, and Claude browser tools named in the Web render step. Historical entries below keep their original Codex wording.
 
 - Clarified VERIFY as a non-editing verification mode by default.

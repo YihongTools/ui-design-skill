@@ -85,7 +85,7 @@ python scripts/validate_skill.py
 python -m unittest discover -s scripts -p 'test_*.py' -v
 ```
 
-以上僅檢查 Skill 格式及契約文字，不能證明 Claude 會正確啟動或遵守規則。
+以上僅檢查封裝結構（frontmatter、檔案位置、發布檔案、測試案例格式與 fixture 是否存在），不檢查 Skill 的文字內容，也不能證明 Claude 會正確啟動或遵守規則。
 
 完成安裝後，再依 [`evals/README.md`](evals/README.md) 的 **evaluation-first** 規格，在乾淨的測試工作目錄執行 Claude 實測。`evals/cases.json` 是測試案例，不是已通過的測試結果。
 

@@ -74,7 +74,7 @@ ui-design/
 docs/
   SKILL.zh-TW.md            # Optional human-readable translation
 scripts/
-  validate_skill.py         # Standard-library, static format/contract check
+  validate_skill.py         # Standard-library, static structure check
   test_validate_skill.py    # Validator regression tests
 evals/
   README.md                 # Proposed Claude runtime evaluation procedure
@@ -93,7 +93,7 @@ python scripts/validate_skill.py
 python -m unittest discover -s scripts -p 'test_*.py' -v
 ```
 
-These checks validate packaging and explicit Skill contract markers; they **cannot** establish that Claude invokes the skill correctly or improves a rendered UI. Follow [the evaluation contract](evals/README.md) for a real Claude test after publication/local installation. See [CHANGELOG](CHANGELOG.md).
+These checks validate packaging only (frontmatter, file layout, release files, evaluation-case schema and fixtures). They do not check the wording of the Skill, and they **cannot** establish that Claude invokes the skill correctly or improves a rendered UI. Follow [the evaluation contract](evals/README.md) for a real Claude test after publication/local installation. See [CHANGELOG](CHANGELOG.md).
 
 ## Scope and attribution
 
